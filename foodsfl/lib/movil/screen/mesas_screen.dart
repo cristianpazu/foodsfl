@@ -9,7 +9,7 @@ class MesasScreen extends StatefulWidget {
 
 class _MesasScreenState extends State<MesasScreen> {
   bool cambiarColor = true;
-  List<bool> estados =[] ;
+  //List<bool> estados =[] ;
   @override
   Widget build(BuildContext context) {
 
@@ -36,15 +36,15 @@ class _MesasScreenState extends State<MesasScreen> {
             onTap: () {
               print('object');
               setState(() {
-                estados[index] = !estados[index];
+              //  estados[index] = !estados[index];
               });
-                     print('object $cambiarColor');
+                     print('object $cambiarColor'); 
             },
             child: Container(
 
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
-              color: estados[index] ? color2 : color
+            //+  color: estados[index] ? color2 : color
               ),
                   child: Center(
                     child: Text('Item ${allG[index]}'),

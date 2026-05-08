@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodsfl/movil/screen/mesas_screen.dart';
+import 'package:foodsfl/movil/screen/pedido_screen.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +15,55 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
      debugShowCheckedModeBanner: false,
-      home:  MesasScreen(),
+      builder: (context, widget) => ResponsiveBreakpoints.builder(
+          child: widget!,
+          breakpoints: const [
+            Breakpoint(start: 0, end: 450, name: MOBILE),
+            Breakpoint(start: 451, end: 800, name: TABLET),
+            Breakpoint(start: 801, end: 1920, name: DESKTOP),
+            Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+          ],
+        ),
+        home: PedidoPage() //MesasScreen(),
+    );
+  }
+}
+
+
+class MovableCircle extends StatefulWidget {
+  @override
+  _MovableCircleState createState() => _MovableCircleState();
+}
+
+class _MovableCircleState extends State<MovableCircle> {
+  double x = 100;
+  double y = 100;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          left: x,
+          top: y,
+          child: GestureDetector(
+            onPanUpdate: (details) {
+              setState(() {
+                x += details.delta.dx;
+                y += details.delta.dy;
+              });
+            },
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
