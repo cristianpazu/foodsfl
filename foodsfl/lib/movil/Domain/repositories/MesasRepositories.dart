@@ -1,7 +1,7 @@
 import 'package:foodsfl/movil/Entities/Mesas.dart';
 
 abstract class Mesasrepositories {
- Future<List<Mesas>> getAllComidaRapida();
+ Future<List<Mesas>> getAllMesas();
 
 
 
