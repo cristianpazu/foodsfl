@@ -13,5 +13,21 @@ class SubMenu {
 
  List<Productos>? productos;
 
+ SubMenu({
+  this.idSubmenu,
+  this.nombre,
+  this.activo,
+  this.menu,
+  this.productos
+  
+ });
+ factory SubMenu.fromJson(Map<String, dynamic> json) =>SubMenu(
+ idSubmenu: json["id_submenu"],
+ nombre: json["nombre"],
+ activo: json["activo"],
+ menu: json["menu"],
+ 
+ );
+
 
 }
