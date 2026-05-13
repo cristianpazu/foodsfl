@@ -1,27 +1,18 @@
-import 'dart:ffi';
-
 class Mesas {
   int? idMesas;
   String? nombre;
-  Bool? disponabilidad;
+  bool? disponibilidad;
 
+  Mesas({required this.idMesas, this.nombre, this.disponibilidad});
 
+  factory Mesas.fromJson(Map<String, dynamic> json) => Mesas(
+      idMesas: json["idMesas"] ?? 0,
+      nombre: json["nombre"],
+      disponibilidad: json["disponibilidad"]);
 
-  Mesas({required this.idMesas,
-  this.nombre,
-  this.disponabilidad
-  });
-
- factory Mesas.fromJson(Map<String,dynamic> json) =>
- Mesas(idMesas: json["idMesas"]?? 0,
- nombre: json["nombre"],
- disponabilidad: json["disponibilidad"]);
-
-Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "idMesas": idMesas,
         "nombre": nombre,
-        "disponabilidad": disponabilidad,
-        };
+        "disponibilidad": disponibilidad,
+      };
 }
-
-

@@ -7,17 +7,26 @@ class HttpService {
 
   HttpService(this.endPoint);
 
-  Future getHttp() async {
+   Future<String?> getHttp() async {
     try {
-      final url =  Uri.https('${Baseurl.baseUrl}${endPoint}');
 
- var responses = await http.get(url);
+ final url = Uri.parse(
+        '${Baseurl.baseUrl}$endPoint',
+      );
+
+      print(url);
+
+      final response = await http.get(url);
+
+      //final url =  Uri.http('${Baseurl.baseUrl}${endPoint}');
+
+// var responses = await http.get(url);
 
 
-      return responses;
+      return response.body;
     } catch (e) {
       print('Error: $e');
-      return {}; // O puedes lanzar una excepción si prefieres
+      return null; // O puedes lanzar una excepción si prefieres
     }
   }
 

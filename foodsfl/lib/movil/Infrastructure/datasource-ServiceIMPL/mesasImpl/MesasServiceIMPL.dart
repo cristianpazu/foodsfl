@@ -1,33 +1,27 @@
+import 'dart:convert';
+
 import 'package:foodsfl/movil/Domain/datasourse-serviceInterface/mesasInterface/MesasDatasource.dart';
 import 'package:foodsfl/movil/Entities/Mesas.dart';
 import 'package:foodsfl/movil/Utils/BaseUrl.dart';
 import 'package:foodsfl/movil/Utils/http.dart';
 
-class Mesasserviceimpl  extends Mesasdatasource{
+class Mesasserviceimpl extends Mesasdatasource {
   @override
-  Future<List<Mesas>> getAllComidaRapida() async {
-    try{
-   final respuesta = await HttpService(Baseurl.consultarCategoria).getHttp();
+  Future<List<Mesas>> getAllMesas() async {
+    try {
+      final respuesta = await HttpService(Baseurl.consultarMesas).getHttp();
+      if (respuesta == null) return [];
 
-print('respuestarespuesta $respuesta');
-
+      final data = jsonDecode(respuesta);
       final List<Mesas> mesas = [];
 
-      print('object respuesta $respuesta');
-      for (var element in respuesta ?? []) {
-        print('object element $element');
-
+      for (var element in data ?? []) {
         mesas.add(Mesas.fromJson(element));
       }
 
-
       return mesas;
-
-
-    } catch (e) {
-      print('Error: $e');
-      return []; // O puedes lanzar una excepción si prefieres
+    } catch (_) {
+      return [];
     }
   }
-
- }
+}
