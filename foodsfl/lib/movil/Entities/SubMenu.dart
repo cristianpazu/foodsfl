@@ -26,8 +26,22 @@ class SubMenu {
  nombre: json["nombre"],
  activo: json["activo"],
  menu: json["menu"],
+ productos:  json["productos"] != null
+            ? (json["productos"] as List)
+                .map((e) => Productos.fromJson(e))
+                .toList()
+            : [],
  
  );
+Map<String, dynamic> toJson() => {
+        "id_submenu": idSubmenu,
+        "nombre": nombre,
+        "activo": activo,
+        "menu": menu,
+          "productos": productos?.map((e) => e.toJson()).toList(),
+      };
 
+
+ 
 
 }

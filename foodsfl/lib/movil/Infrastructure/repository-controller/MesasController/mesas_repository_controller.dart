@@ -1,4 +1,4 @@
-import 'package:foodsfl/movil/Domain/repositories/MesasRepositories.dart';
+import 'package:foodsfl/movil/Domain/repositories/mesasRepositories/MesasRepositories.dart';
 import 'package:foodsfl/movil/Entities/Mesas.dart';
 import 'package:foodsfl/movil/Infrastructure/datasource-ServiceIMPL/mesasImpl/MesasServiceIMPL.dart';
 

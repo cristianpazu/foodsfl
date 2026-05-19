@@ -1,8 +1,8 @@
 class Baseurl {
 
- static final String baseUrl = 'http://192.168.1.40:8080';
-  static final String consultarMesas = '/Mesas/traer/mesas';
- static final String consultarProductos = '/productos/traerporAll';
+ static final String baseUrl = 'http://192.168.20.23:8080';
+  static final String consultarMesas = '/Mesas/listar/mesas';
+ static final String consultarSubMenu = '/submenu/traer/submenus';
   static final String consultarProductoId = '/productos/traerporId/{id}';
   static final String actualizarProducto = '/productos/actualizar';
   static final String registrarProducto = '/productos/registrarProductos';

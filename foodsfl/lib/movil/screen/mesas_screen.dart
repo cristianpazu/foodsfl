@@ -50,7 +50,7 @@ class _MesasScreenState extends ConsumerState {
                         : color),
                 child: Center(
                   child:
-                      Text('Item ${listaMesas.mesas?[index].disponibilidad} '),
+                      Text('Item ${listaMesas.mesas?[index].nombre} '),
                 ),
               ),
             );
