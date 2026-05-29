@@ -26,6 +26,9 @@ class MesasNotifiers extends StateNotifier<MesasState> {
 
     final List<Mesas> mesas = await mesasControllerREposituroy.getAllMesas();
 
-    state = state.copyWith(isLoding: false, mesas: [...?state.mesas, ...mesas]);
+    state = state.copyWith(isLoding: false, mesas:mesas);
   }
+
+
+  
 }

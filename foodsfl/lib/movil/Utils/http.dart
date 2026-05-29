@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:foodsfl/movil/Utils/BaseUrl.dart';
 import 'package:http/http.dart' as http;
 class HttpService {
@@ -29,6 +31,35 @@ class HttpService {
       return null; // O puedes lanzar una excepción si prefieres
     }
   }
+
+  Future postRegisterHttp(Map<String, dynamic> producto) async {
+    try {
+
+
+ final url = Uri.parse(
+        '${Baseurl.baseUrl}$endPoint',
+      );
+
+      print(url);
+
+      final response = await http.post(url,   headers: {
+      'Content-Type': 'application/json',
+
+      
+    },
+    
+    body: jsonEncode(producto),
+    );
+
+      print('response.data ${response.body}');
+//return Map<String, dynamic>.from(response.body as Map);
+    return jsonDecode(response.body);
+      //return response.data as Map<String, dynamic>;
+    } catch (e) {
+      print('Error: $e');
+      return {}; // O puedes lanzar una excepción si prefieres
+    }
+  } 
 
  /* Future<Map<String, dynamic>> putHttp(Map<String, dynamic> producto, String method) async {
     try {
