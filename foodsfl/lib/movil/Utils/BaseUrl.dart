@@ -6,6 +6,11 @@ class Baseurl {
  static String consultarRestaurante(int id) =>
     '/restaurante/traer/menuTodo/$id';
   static final String registrarPedido = '/Pedido/pedido';
+  static final String consultarProducto = '/producto/listar/productos';
+
+static final String consultarSubmenus = '/submenu/listar/submenus';
+
+
   static final String actualizarProducto = '/productos/actualizar';
   static final String registrarProducto = '/productos/registrarProductos';
   static final String consultarCategoria = '/categoria/traerporAll';
