@@ -14,9 +14,9 @@ class Cardproductos extends StatelessWidget {
    Color get color {
     switch (activo!) {
       case true:
-        return Colors.blue;
+        return Colors.white;
       case false:
-        return Colors.red;
+        return const Color.fromARGB(108, 255, 66, 52);
       
     }
   }
@@ -24,6 +24,7 @@ class Cardproductos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: color,
   margin: EdgeInsets.zero,
 elevation: 10,
     child: Container(
@@ -42,7 +43,7 @@ elevation: 10,
                SizedBox(height: 20,),
               Row(
                 children: [
-                  Container(
+                 /* Container(
                     width: 60,
                     height: 20,
                     decoration: BoxDecoration(
@@ -60,7 +61,7 @@ elevation: 10,
                     color: Colors.blue,
                       borderRadius: BorderRadius.all(Radius.circular(20))
                     ),
-                  )
+                  ) */
                 ],
               )
         ],

@@ -36,7 +36,7 @@ class _MenuprincipalState extends State<Menuprincipal> {
             ),
             Expanded(
               child: Column(
-                children: [
+                children: [ /*
                   Container(
                     padding: const EdgeInsets.all(16),
                     child: TextField(
@@ -48,7 +48,7 @@ class _MenuprincipalState extends State<Menuprincipal> {
                         ),
                       ),
                     ),
-                  ),
+                  ), */
                   Expanded(
                     child: pages[selectedIndex],
                   ),
