@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodsfl/WEB/notifiers/produto_notifiers/producto_notifiers.dart';
 import 'package:foodsfl/WEB/notifiers/submenu_notifiers/submenu_notifiers.dart';
+import 'package:foodsfl/WEB/screen/Forms/ProductoFormModal.dart';
 import 'package:foodsfl/Widgets/cardProductos.dart';
 
 class Productopage extends ConsumerStatefulWidget {
@@ -135,7 +136,11 @@ class _ProductopageState extends ConsumerState {
         padding: const EdgeInsets.all(18.0),
         child: FloatingActionButton.extended(
           onPressed: () {
-            // Registrar producto
+             showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (_) => const ProductoFormModal(),
+  );
           },
           icon: const Icon(Icons.add),
           label: const Text('Producto'),
