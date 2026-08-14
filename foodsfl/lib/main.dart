@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodsfl/WEB/screen/PedidosPage.dart' show Pedidospage;
 import 'package:foodsfl/WEB/screen/menuPrincipal.dart';
 import 'package:foodsfl/WEB/screen/productoPage.dart';
 import 'package:foodsfl/movil/screen/mesas_screen.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
               Breakpoint(start: 1921, end: double.infinity, name: '4K'),
             ],
           ),
-          home: Menuprincipal()//
+          home: Pedidospage()//Menuprincipal()//
         //  MesasScreen(),//RestaurantePage()  //PedidoPage() ,
       ),
     );
