@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
 
-class Cardproductos extends StatelessWidget {
+class CardPedidos extends StatelessWidget {
   int idProducto;
-  String? nombre;
-  String? descripcion;
-  int? precio;
-  bool? activo;
+  String? nombreMesa;
+  String? nombreProducto;
+  int? cantidad;
 
 
-   Cardproductos({super.key, required this.idProducto, this.nombre, this.descripcion, this.precio, this.activo});
+
+   CardPedidos({super.key, required this.idProducto, this.nombreMesa, this.nombreProducto, this.cantidad});
 
 
-   Color get color {
-    switch (activo!) {
-      case true:
-        return Colors.white;
-      case false:
-        return const Color.fromARGB(108, 255, 66, 52);
-      
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Card( 
-      color: color,
+      color: Color.fromRGBO(122, 321, 12, 0.1),
   margin: EdgeInsets.zero,
 elevation: 10,
     child: Container(
@@ -35,11 +26,11 @@ elevation: 10,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
            SizedBox(height: 5,),
-          Text('${nombre}'),
+          Text('${nombreMesa}'),
             SizedBox(height: 5,),
-            Text('${descripcion}'),
+            Text('${nombreProducto}'),
             SizedBox(height: 5,),
-              Text('${precio}'),
+              Text('${cantidad}'),
                SizedBox(height: 20,),
               Row(
                 children: [

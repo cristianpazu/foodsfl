@@ -89,11 +89,18 @@ class Sidebar extends StatelessWidget {
             ),
           ),
           const Divider(),
+
           ListTile(
             leading: const Icon(Icons.dashboard),
             title: const Text('Productos'),
             selected: selectedIndex == 0,
             onTap: () => onItemSelected(0),
+          ),
+          ListTile(
+            leading: const Icon(Icons.outdoor_grill_outlined),
+            title: const Text('Pedidos'),
+            selected: selectedIndex == 1,
+            onTap: () => onItemSelected(1),
           ),
 
           /*ListTile(
