@@ -28,14 +28,14 @@ class Historialpedidodto {
 
   factory Historialpedidodto.fromJson(Map<String, dynamic> json) {
     return Historialpedidodto(
-      idPedido: json['idPedido'],
-      nombreMesa: json['nombreMesa'],
-      nombreProducto: json['nombreProducto'],
-      precio: json['precio'],
-      fecha: json['fecha'],
-      cantidad: json['cantidad'],
-      hora: json['hora'],
-      totalCuenta: json['totalCuenta'],
+     idPedido: (json['idPedido'] as num).toInt(),
+    nombreMesa: json['nombreMesa']?.toString() ?? '',
+    nombreProducto: json['nombreProducto']?.toString() ?? '',
+    precio: (json['precio'] as num).toInt(),
+    fecha: json['fecha']?.toString() ?? '',
+    cantidad: (json['cantidad'] as num).toInt(),
+    hora: json['hora']?.toString() ?? '',
+    totalCuenta: (json['totalCuenta'] as num).toInt(),
     );
   }
 }

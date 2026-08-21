@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
               Breakpoint(start: 1921, end: double.infinity, name: '4K'),
             ],
           ),
-          home: Pedidospage()//Menuprincipal()//
+          home: Menuprincipal()//Pedidospage()//Menuprincipal()//
         //  MesasScreen(),//RestaurantePage()  //PedidoPage() ,
       ),
     );

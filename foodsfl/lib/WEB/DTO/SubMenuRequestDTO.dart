@@ -1,4 +1,4 @@
-import 'package:foodsfl/movil/DTO/MenuDTO.dart';
+
 
 class SubmenuRequestdto {
  int idSubmen;

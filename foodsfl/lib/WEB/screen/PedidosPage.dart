@@ -24,6 +24,7 @@ class _PedidospagepageState extends ConsumerState {
     final pedido = ref.watch(pedidotateNotifierProvider);
 
     print('>>>>>>>>>>>>>>>>>>>>< ${pedido.historialpedidodto?.length}');
+    
 /*
     final productosFiltrados = productos.producto?.where((producto) {
           if (subMenuSeleccionado == null) {
@@ -72,16 +73,25 @@ class _PedidospagepageState extends ConsumerState {
 
                   print(pedido.historialpedidodto?.length);
 
-                  return Column(
+                  return /*Card(
+  child: Column(
+    children: [
+      Text('Pedido: ${pedidos.idPedido}'),
+      Text('Mesa: ${pedidos.nombreMesa}'),
+      Text('Producto: ${pedidos.nombreProducto}'),
+      Text('Cantidad: ${pedidos.cantidad}'),
+    ],
+  ),
+); */ Column(
                     children: [
                       CardPedidos(
-                        idProducto: pedidos.idPedido ?? 0,
+                        idProducto: pedidos.idPedido,
                         nombreMesa: pedidos.nombreMesa,
                         nombreProducto: pedidos.nombreProducto,
                         cantidad: pedidos.cantidad,
                       ),
                     ],
-                  );
+                  ); 
                 }),
           ),
         ],

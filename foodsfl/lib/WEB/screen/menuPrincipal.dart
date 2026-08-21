@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodsfl/WEB/screen/PedidosPage.dart' show Pedidospage;
 import 'package:foodsfl/WEB/screen/productoPage.dart';
 import 'package:foodsfl/WEB/widget/drawers.dart';
 import 'package:foodsfl/Widgets/cardProductos.dart';
@@ -16,6 +17,7 @@ class _MenuprincipalState extends State<Menuprincipal> {
 
   final pages = [
     Productopage(),
+    Pedidospage(),
   ];
 
   @override

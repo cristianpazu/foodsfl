@@ -2,9 +2,6 @@ import 'dart:convert';
 
 import 'package:foodsfl/WEB/DTO/ProductoResponseDTO.dart';
 import 'package:foodsfl/WEB/Domain/datasource-serviceInterface/productoInterface/productoDatasource.dart';
-import 'package:foodsfl/movil/Domain/datasourse-serviceInterface/mesasInterface/MesasDatasource.dart';
-import 'package:foodsfl/movil/Entities/Mesas.dart';
-import 'package:foodsfl/movil/Entities/Productos.dart';
 import 'package:foodsfl/movil/Utils/BaseUrl.dart';
 import 'package:foodsfl/movil/Utils/http.dart';
 
