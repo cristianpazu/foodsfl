@@ -9,23 +9,24 @@ import 'package:foodsfl/WEB/notifiers/submenu_notifiers/submenu_notifiers.dart';
 import 'package:foodsfl/WEB/screen/Forms/ProductoFormModal.dart';
 import 'package:foodsfl/WEB/widget/sistema.dart';
 import 'package:foodsfl/Widgets/cardPedido.dart';
+import 'package:foodsfl/Widgets/cardPedidos.dart' show CardPedidos2;
 import 'package:foodsfl/Widgets/cardProductos.dart';
 
-class Pedidospage extends ConsumerStatefulWidget {
-  const Pedidospage({super.key});
+class Cajapage extends ConsumerStatefulWidget {
+  const Cajapage({super.key});
 
   @override
-  _PedidospagepageState createState() => _PedidospagepageState();
+  _CajapagepageState createState() => _CajapagepageState();
 }
 
-class _PedidospagepageState extends ConsumerState {
+class _CajapagepageState extends ConsumerState {
   int? subMenuSeleccionado;
   String textoBusqueda = '';
   @override
   Widget build(BuildContext context) {
     final pedido = ref.watch(pedidotateNotifierProvider);
 
-    print('>>>>>>>>>>>>>>>>>>>>< ${pedido.historialpedidodto?.length}');
+    print('|||||||||||||||||||||||||| ${pedido.estadoPedido?.length}');
 
 
   final historial = pedido.historialpedidodto ?? [];
@@ -39,15 +40,7 @@ for (final item in historial) {
 
 final pedidosUnicos = pedidosAgrupados.values.toList();
 
-/*
-    final productosFiltrados = productos.producto?.where((producto) {
-          if (subMenuSeleccionado == null) {
-            return true;
-          }
 
-          return producto.idSubmenu == subMenuSeleccionado;
-        }).toList() ??
-        []; */
 
     return Scaffold(
       body: Column(
@@ -71,46 +64,13 @@ final pedidosUnicos = pedidosAgrupados.values.toList();
           ),
           const SizedBox(height: 20),
           Expanded(
-            child: /* SingleChildScrollView(
-                  padding: const EdgeInsets.all(20),
-  child: SizedBox(
-    width: double.infinity,
-    child: Wrap(
-     alignment: WrapAlignment.start,
-          runAlignment: WrapAlignment.start,
-          crossAxisAlignment: WrapCrossAlignment.start,
-  spacing: 20,       // espacio horizontal
-  runSpacing: 20,    // espacio vertical
-      children: List.generate(
-        pedidosUnicos.length,
-        (index) {
-          final productosPedido = pedidosUnicos[index];
-    
-          final primerProducto = productosPedido.first;
-    
-          return SizedBox(
-            width: 200,
-            child: CardPedidos(
-              idProducto: primerProducto.idPedido,
-              nombreMesa: primerProducto.nombreMesa,
-              productos: productosPedido,
-            ),
-          );
-        },
-      ),
-    ),
-  ),
-) */
+            child: 
 
             
             
             
             MasonryGridView.count(
-               /* gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 6, // número de columnas
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ), */
+               
 
  crossAxisCount: 6,
   mainAxisSpacing: 20,
@@ -141,10 +101,11 @@ final pedidosUnicos = pedidosAgrupados.values.toList();
   ),
 ); */ Column(
                     children: [ 
-                      CardPedidos(
+                      CardPedidos2(
                         idProducto: primerProducto.idPedido,
                         nombreMesa: primerProducto.nombreMesa,
-                        productos: productosPedido
+                        productos: productosPedido,
+                        totalCuenta: primerProducto.totalCuenta,
                         
                         
                         /*

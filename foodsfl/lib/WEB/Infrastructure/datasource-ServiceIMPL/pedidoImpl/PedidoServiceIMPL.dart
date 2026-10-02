@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:foodsfl/WEB/DTO/EstadoPedidoDTO.dart';
 import 'package:foodsfl/WEB/DTO/HistorialPedidoDTO.dart' show Historialpedidodto;
 import 'package:foodsfl/WEB/Domain/datasource-serviceInterface/pedidoInterface/pedidoDatasource.dart' show Pedidodatasource;
 import 'package:foodsfl/movil/Utils/BaseUrl.dart';
@@ -52,6 +53,50 @@ class Pedidoserviceimpl extends Pedidodatasource {
   print(stackTrace);
   return [];
 }
+  }
+
+  @override
+  Future<List<Estadopedidodto>> consultarEstadoPedido() async {
+    try{
+ final respuesta = await HttpService(Baseurl.consultarEstadoPedido).getHttp();
+
+
+  print('La respuesta no es una lista $respuesta');
+
+
+      if (respuesta == null) return [];
+
+      final data = jsonDecode(respuesta);
+     
+ if (data is! List) {
+      print('❌ La respuesta no es una lista');
+      return [];
+    }
+      final List<Estadopedidodto> peidos = [];
+
+      for (var element in data ?? []) {
+
+        
+       // peidos.add(Historialpedidodto.fromJson(element));
+
+       if (element is Map<String, dynamic>) {
+        peidos.add(
+          Estadopedidodto.fromJson(element),
+        );
+      } else {
+        print('❌ Elemento no es Map<String,dynamic>');
+      }
+        
+      }
+ print('peidos $peidos');
+      return peidos;
+
+
+
+  
+    }catch(_){
+return [];
+    }
   }
 
 }

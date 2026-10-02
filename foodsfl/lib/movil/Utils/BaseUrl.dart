@@ -13,6 +13,8 @@ static final String consultarSubmenus = '/submenu/listar/submenus';
  static String consultarPedidosActuals(String fecha, int idEstado) =>
 '/Pedido/consultar/pedido/${fecha}/${idEstado}';
 
+static String consultarEstadoPedido = '/estadoPedido/consultar/estadosPedidos';
+
 
   static final String actualizarProducto = '/productos/actualizar';
   static final String registrarProducto = '/productos/registrarProductos';

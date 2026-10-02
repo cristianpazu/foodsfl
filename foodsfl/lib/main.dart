@@ -29,10 +29,26 @@ class MyApp extends StatelessWidget {
               Breakpoint(start: 1921, end: double.infinity, name: '4K'),
             ],
           ),
-          home: Menuprincipal()//Pedidospage()//Menuprincipal()//
+          home: Menuprincipal() //AppInicio()//Pedidospage()//Menuprincipal()//
         //  MesasScreen(),//RestaurantePage()  //PedidoPage() ,
       ),
     );
+  }
+}
+
+
+class AppInicio extends StatelessWidget {
+  const AppInicio({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final responsive = ResponsiveBreakpoints.of(context);
+
+    if (responsive.isMobile || responsive.isTablet) {
+      return const MesasScreen();
+    }
+
+    return const Menuprincipal();
   }
 }
 
