@@ -54,7 +54,10 @@ class PedidoNotifiers extends StateNotifier<Pedidostate> {
 }
 
   Future consultarEstadoPedido() async {
-    if (state.isLoding == true) return;
+if (state.isLodingCaja == true) {
+  print('🔴 NO HAGO PETICIÓN PORQUE ESTÁ CARGANDO');
+  return;
+}
 
     state = state.copyWith(isLoding: true);
     try{
@@ -64,11 +67,11 @@ class PedidoNotifiers extends StateNotifier<Pedidostate> {
     print('>>>>>>>>>>>>>>>>< $estadoPedido');
 
     state = state.copyWith(
-        isLoding: false,
+        isLodingCaja: false,
         estadoPedido: [...?state.estadoPedido, ...estadoPedido]);
 
     }catch(_){
-    state = state.copyWith(isLoding: false);
+    state = state.copyWith(isLodingCaja: false);
     }
 
   }
@@ -105,6 +108,9 @@ print('TIPO ITEMS: ${items.runtimeType}');
 
  print('PRODUCTO: $producto');
 
+final estadoPago =
+    Map<String, dynamic>.from(pedido['estadoPago'] as Map);
+
       return Historialpedidodto(
         idPedido: (pedido['idPedido'] as num).toInt(),
         nombreMesa: mesa['nombre']?.toString() ?? '',
@@ -114,6 +120,8 @@ print('TIPO ITEMS: ${items.runtimeType}');
         fecha: pedido['fecha']?.toString() ?? '',
         hora: pedido['hora']?.toString() ?? '',
         totalCuenta: (pedido['totalCuenta'] as num).toInt(),
+          estadoPago: estadoPago['nombre']?.toString() ?? '',
+       // estadoPago: pedido['estadoPago']?.toString() ?? ''
       );
     }).toList();
 
@@ -277,6 +285,42 @@ print('🟢 nuevoState creado');
     print('🔥 STACK: $stack');
   }
 }
+
+Future<void> actualizarEstadoPedido(
+  int idPedido,
+  int idEstadoPago,
+) async {
+  if (state.isLodingEstadoPedido == true) {
+    print('🔴 NO HAGO PETICIÓN PORQUE ESTÁ CARGANDO');
+    return;
+  }
+
+  state = state.copyWith(
+    isLodingEstadoPedido: true,
+  );
+
+  try {
+    await pedidorepositories.actualizarEstadoPago(
+      idPedido,
+      idEstadoPago,
+    );
+
+    state = state.copyWith(
+      isLodingEstadoPedido: false,
+    );
+
+    print('✅ Estado actualizado correctamente');
+  } catch (e) {
+    print('❌ Error actualizando estado: $e');
+
+    state = state.copyWith(
+      isLodingEstadoPedido: false,
+    );
+  }
+}
+
+
+
 
 /*
 void conectarWebSocket() {

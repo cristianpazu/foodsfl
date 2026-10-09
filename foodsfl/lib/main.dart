@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
               Breakpoint(start: 1921, end: double.infinity, name: '4K'),
             ],
           ),
-          home: Menuprincipal() //AppInicio()//Pedidospage()//Menuprincipal()//
+          home:    /* Menuprincipal()*/ AppInicio()//Pedidospage()//Menuprincipal()//
         //  MesasScreen(),//RestaurantePage()  //PedidoPage() ,
       ),
     );
@@ -175,6 +175,383 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+
+
+class MenuItem {
+  final int id;
+  String nombre;
+  bool activo;
+  int cantidadSubmenus;
+
+  MenuItem({
+    required this.id,
+    required this.nombre,
+    required this.activo,
+    this.cantidadSubmenus = 0,
+  });
+}
+
+class MenuGestionScreen extends StatefulWidget {
+  const MenuGestionScreen({super.key});
+
+  @override
+  State<MenuGestionScreen> createState() => _MenuGestionScreenState();
+}
+
+class _MenuGestionScreenState extends State<MenuGestionScreen> {
+  final TextEditingController buscarController = TextEditingController();
+  final TextEditingController nombreController = TextEditingController();
+
+  String filtro = 'Todos';
+  String busqueda = '';
+  bool activo = true;
+  int? idEditando;
+
+  final List<MenuItem> menus = [
+    MenuItem(
+      id: 1,
+      nombre: 'Comidas',
+      activo: true,
+      cantidadSubmenus: 5,
+    ),
+    MenuItem(
+      id: 2,
+      nombre: 'Bebidas',
+      activo: true,
+      cantidadSubmenus: 3,
+    ),
+    MenuItem(
+      id: 3,
+      nombre: 'Alitas',
+      activo: true,
+      cantidadSubmenus: 4,
+    ),
+    MenuItem(
+      id: 4,
+      nombre: 'Menú de fin de semana',
+      activo: false,
+      cantidadSubmenus: 2,
+    ),
+    MenuItem(
+      id: 5,
+      nombre: 'Postres',
+      activo: true,
+      cantidadSubmenus: 3,
+    ),
+  ];
+
+  List<MenuItem> get menusFiltrados {
+    return menus.where((menu) {
+      final coincideNombre = menu.nombre
+          .toLowerCase()
+          .contains(busqueda.toLowerCase());
+
+      final coincideEstado = filtro == 'Todos' ||
+          (filtro == 'Activos' && menu.activo) ||
+          (filtro == 'Inactivos' && !menu.activo);
+
+      return coincideNombre && coincideEstado;
+    }).toList();
+  }
+
+  @override
+  void dispose() {
+    buscarController.dispose();
+    nombreController.dispose();
+    super.dispose();
+  }
+
+  void abrirFormulario({MenuItem? menu}) {
+    idEditando = menu?.id;
+    nombreController.text = menu?.nombre ?? '';
+    activo = menu?.activo ?? true;
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, actualizarDialogo) {
+            return AlertDialog(
+              title: Text(
+                menu == null ? 'Registrar menú' : 'Actualizar menú',
+              ),
+              content: SizedBox(
+                width: 400,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: nombreController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        labelText: 'Nombre del menú',
+                        hintText: 'Ej. Comidas',
+                        prefixIcon: const Icon(Icons.restaurant_menu),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text('Menú activo'),
+                      value: activo,
+                      onChanged: (valor) {
+                        actualizarDialogo(() => activo = valor);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(dialogContext),
+                  child: const Text('Cancelar'),
+                ),
+                FilledButton.icon(
+                  onPressed: () {
+                    final nombre = nombreController.text.trim();
+
+                    if (nombre.isEmpty) {
+                      ScaffoldMessenger.of(this.context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Ingresa el nombre del menú'),
+                        ),
+                      );
+                      return;
+                    }
+
+                    setState(() {
+                      if (menu == null) {
+                        final nuevoId = menus.isEmpty
+                            ? 1
+                            : menus
+                                    .map((m) => m.id)
+                                    .reduce((a, b) => a > b ? a : b) +
+                                1;
+
+                        menus.add(
+                          MenuItem(
+                            id: nuevoId,
+                            nombre: nombre,
+                            activo: activo,
+                          ),
+                        );
+                      } else {
+                        menu.nombre = nombre;
+                        menu.activo = activo;
+                      }
+                    });
+
+                    Navigator.pop(dialogContext);
+                  },
+                  icon: Icon(menu == null ? Icons.add : Icons.save),
+                  label: Text(menu == null ? 'Registrar' : 'Actualizar'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFFFF7FF),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+          child: Column(
+            children: [
+              // Buscador
+              TextField(
+                controller: buscarController,
+                onChanged: (valor) {
+                  setState(() => busqueda = valor);
+                },
+                decoration: InputDecoration(
+                  hintText: 'Buscar menú...',
+                  prefixIcon: const Icon(Icons.search),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 18),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Color(0xFFD4C9D8)),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Filtros
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 10,
+                runSpacing: 8,
+                children: ['Todos', 'Activos', 'Inactivos'].map((opcion) {
+                  final seleccionado = filtro == opcion;
+
+                  return ChoiceChip(
+                    label: Text(opcion),
+                    selected: seleccionado,
+                    showCheckmark: seleccionado,
+                    selectedColor: const Color(0xFFED762A),
+                    backgroundColor: Colors.white,
+                    labelStyle: TextStyle(
+                      color: seleccionado ? Colors.white : Colors.black87,
+                    ),
+                    onSelected: (_) {
+                      setState(() => filtro = opcion);
+                    },
+                  );
+                }).toList(),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Cuadrícula de menús
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    int columnas = 2;
+
+                    if (constraints.maxWidth >= 1400) {
+                      columnas = 6;
+                    } else if (constraints.maxWidth >= 1100) {
+                      columnas = 5;
+                    } else if (constraints.maxWidth >= 800) {
+                      columnas = 4;
+                    } else if (constraints.maxWidth >= 550) {
+                      columnas = 3;
+                    }
+
+                    final lista = menusFiltrados;
+
+                    if (lista.isEmpty) {
+                      return const Center(
+                        child: Text('No se encontraron menús'),
+                      );
+                    }
+
+                    return GridView.builder(
+                      itemCount: lista.length,
+                      gridDelegate:
+                          SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: columnas,
+                        crossAxisSpacing: 24,
+                        mainAxisSpacing: 24,
+                        childAspectRatio: 0.95,
+                      ),
+                      itemBuilder: (context, index) {
+                        final menu = lista[index];
+
+                        return Card(
+                          color: Colors.white,
+                          elevation: 4,
+                          shadowColor: Colors.black26,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: InkWell(
+                            onTap: () => abrirFormulario(menu: menu),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.restaurant_menu,
+                                        size: 30,
+                                        color: Color(0xFFED762A),
+                                      ),
+                                      const Spacer(),
+                                      IconButton(
+                                        tooltip: 'Actualizar menú',
+                                        onPressed: () =>
+                                            abrirFormulario(menu: menu),
+                                        icon: const Icon(
+                                          Icons.edit_outlined,
+                                          color: Colors.blueGrey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    menu.nombre,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '${menu.cantidadSubmenus} submenús',
+                                    style: const TextStyle(
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: BoxDecoration(
+                                          color: menu.activo
+                                              ? Colors.green
+                                              : Colors.grey,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 7),
+                                      Text(
+                                        menu.activo ? 'Activo' : 'Inactivo',
+                                        style: TextStyle(
+                                          color: menu.activo
+                                              ? Colors.green.shade700
+                                              : Colors.grey.shade700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => abrirFormulario(),
+        backgroundColor: const Color(0xFFE9DCFF),
+        foregroundColor: const Color(0xFF60429B),
+        icon: const Icon(Icons.add),
+        label: const Text('Menú'),
+      ),
     );
   }
 }

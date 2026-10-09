@@ -23,7 +23,12 @@ print('uffff ${ufff}');
   @override
   Future<List<Estadopedidodto>> consultarEstadoPedido() {
    final estadoPedido = pedidoserviceimpl.consultarEstadoPedido();
-
+print('estadoPedido ${estadoPedido}');
    return estadoPedido;
+  }
+
+  @override
+  Future actualizarEstadoPago(int idPedido, int idEstadoPago) {
+    return pedidoserviceimpl.actualizarEstadoPago(idPedido,idEstadoPago);
   }
 }

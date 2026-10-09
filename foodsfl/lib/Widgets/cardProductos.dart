@@ -43,6 +43,27 @@ elevation: 10,
                SizedBox(height: 20,),
               Row(
                 children: [
+
+                                Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: BoxDecoration(
+                                          color: activo!
+                                              ? Colors.green
+                                              : Color.fromARGB(108, 255, 66, 52),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                       const SizedBox(width: 7),
+                                      Text(
+                                        activo! ? 'Activo' : 'Inactivo',
+                                        style: TextStyle(
+                                          color: activo!
+                                              ? Colors.green.shade700
+                                              : Colors.grey.shade700,
+                                        ),
+                                      ),
+
                  /* Container(
                     width: 60,
                     height: 20,

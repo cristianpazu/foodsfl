@@ -14,7 +14,9 @@ static final String consultarSubmenus = '/submenu/listar/submenus';
 '/Pedido/consultar/pedido/${fecha}/${idEstado}';
 
 static String consultarEstadoPedido = '/estadoPedido/consultar/estadosPedidos';
+static  String actualizarEstadoPago(int idPedido, int idEstadoPagp ) =>  '/Pedido/actualizar/pedido/${idPedido}/${idEstadoPagp}';
 
+static final String consultarSubmenusPedidos = '/venta/ventaHoy';
 
   static final String actualizarProducto = '/productos/actualizar';
   static final String registrarProducto = '/productos/registrarProductos';

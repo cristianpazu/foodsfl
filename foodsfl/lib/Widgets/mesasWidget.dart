@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class Mesaswidget extends StatelessWidget {
   final String mesa;
   final bool estado;
+  final int capacidad;
     final VoidCallback onTap;
 
   const Mesaswidget( {
     super.key,
     required this.mesa,
     required this.estado,
+    required this.capacidad,
    required this.onTap,
   });
 
@@ -64,6 +66,14 @@ class Mesaswidget extends StatelessWidget {
                 mesa,
                 style: const TextStyle(
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+               const SizedBox(height: 5),
+                 Text(
+                'Capacidad de la mesa - $capacidad',
+                style: const TextStyle(
+                  fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
               ),

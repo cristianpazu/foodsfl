@@ -15,6 +15,10 @@ class Historialpedidodto {
   final String hora;
 
   final int totalCuenta;
+  
+  final String estadoPago;
+
+
   Historialpedidodto({
     required this.idPedido,
     required this.nombreMesa,
@@ -24,9 +28,11 @@ class Historialpedidodto {
     required this.fecha,
     required this.hora,
     required this.totalCuenta,
+    required this.estadoPago
   });
 
   factory Historialpedidodto.fromJson(Map<String, dynamic> json) {
+    final estadoPago = json['estadoPago'];
     return Historialpedidodto(
      idPedido: (json['idPedido'] as num).toInt(),
     nombreMesa: json['nombreMesa']?.toString() ?? '',
@@ -36,6 +42,10 @@ class Historialpedidodto {
     cantidad: (json['cantidad'] as num).toInt(),
     hora: json['hora']?.toString() ?? '',
     totalCuenta: (json['totalCuenta'] as num).toInt(),
+    estadoPago: estadoPago is Map
+          ? estadoPago['nombre']?.toString() ?? ''
+          : estadoPago?.toString() ?? '',
+    // estadoPago: json['estadoPago']?.toString() ?? '',
     );
   }
 }

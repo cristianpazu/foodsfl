@@ -43,6 +43,7 @@ class _MesasScreenState extends ConsumerState {
               child: Mesaswidget(
                mesa:listaMesas.mesas![index].nombre ?? '',
                estado:  listaMesas.mesas![index].disponibilidad ?? true,
+               capacidad: listaMesas.mesas![index].capacidad ?? 0,
                onTap:
                 () {
              if (!disponible) return;

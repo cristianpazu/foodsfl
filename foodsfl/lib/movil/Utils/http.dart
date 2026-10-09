@@ -87,4 +87,29 @@ return Map<String, dynamic>.from(response.data);
       return {}; // O puedes lanzar una excepción si prefieres
     }
   } */
+
+ Future<dynamic> postActualizarEstadoPagoHttp() async {
+    try {
+    final url = Uri.parse(
+      '${Baseurl.baseUrl}$endPoint',
+    );
+
+    print(url);
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print('response.data ${response.body}');
+
+    return jsonDecode(response.body);
+  } catch (e) {
+    print('Error: $e');
+    return {};
+  }
+}
+
 }
