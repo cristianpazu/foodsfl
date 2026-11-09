@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+
+class Cardproductos extends StatelessWidget {
+  int idProducto;
+  String? nombre;
+  String? descripcion;
+  int? precio;
+  bool? activo;
+
+
+   Cardproductos({super.key, required this.idProducto, this.nombre, this.descripcion, this.precio, this.activo});
+
+
+   Color get color {
+    switch (activo!) {
+      case true:
+        return Colors.white;
+      case false:
+        return const Color.fromARGB(108, 255, 66, 52);
+      
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card( 
+      color: color,
+  margin: EdgeInsets.zero,
+elevation: 10,
+    child: Container(
+      width: 200,
+      height: 200,
+      padding: EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+           SizedBox(height: 5,),
+          Text('${nombre}'),
+            SizedBox(height: 5,),
+            Text('${descripcion}'),
+            SizedBox(height: 5,),
+              Text('${precio}'),
+               SizedBox(height: 20,),
+              Row(
+                children: [
+
+                                Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: BoxDecoration(
+                                          color: activo!
+                                              ? Colors.green
+                                              : Color.fromARGB(108, 255, 66, 52),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                       const SizedBox(width: 7),
+                                      Text(
+                                        activo! ? 'Activo' : 'Inactivo',
+                                        style: TextStyle(
+                                          color: activo!
+                                              ? Colors.green.shade700
+                                              : Colors.grey.shade700,
+                                        ),
+                                      ),
+
+                 /* Container(
+                    width: 60,
+                    height: 20,
+                    decoration: BoxDecoration(
+                    color: color,
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
+                    child: Center(child: Text(activo! ? 'Activo' : 'Inactivo',)),
+                  ),
+                   
+                   SizedBox(width: 20,),
+                    Container(
+                    width: 60,
+                    height: 20,
+                    decoration: BoxDecoration(
+                    color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
+                  ) */
+                ],
+              )
+        ],
+      ),
+    ),
+    );
+  }
+}

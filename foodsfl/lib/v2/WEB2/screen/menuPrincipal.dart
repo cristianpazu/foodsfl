@@ -1,0 +1,161 @@
+import 'package:flutter/material.dart';
+import 'package:foodsfl/WEB/screen/CajaPage.dart' show Cajapage;
+
+import 'package:foodsfl/WEB/screen/ventaPage.dart' show Ventapage;
+import 'package:foodsfl/WEB/widget/drawers.dart';
+import 'package:foodsfl/Widgets/cardProductos.dart';
+import 'package:foodsfl/main.dart' show MenuGestionScreen;
+import 'package:foodsfl/movil/screen/mesas_screen.dart';
+import 'package:foodsfl/v2/WEB2/screen/PedidosPage.dart' show Pedidospage;
+import 'package:foodsfl/v2/WEB2/screen/productoPage.dart' show Productopage;
+
+class MenuprincipalWeb extends StatefulWidget {
+  const MenuprincipalWeb({super.key});
+
+  @override
+  State<MenuprincipalWeb> createState() => _MenuprincipalState();
+}
+
+class _MenuprincipalState extends State<MenuprincipalWeb> {
+  int selectedIndex = 0;
+
+  final pages = [
+    Productopage(),
+    Pedidospage(),
+    /*Cajapage(),
+    Ventapage(),*/
+    MenuGestionScreen() 
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      
+        body: Row(
+          children: [
+            Sidebar(
+              selectedIndex: selectedIndex,
+              onItemSelected: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+            ),
+            Expanded(
+              child: Column(
+                children: [ /*
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Buscar producto...',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ), */
+                  Expanded(
+                    child: pages[selectedIndex],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ));
+  }
+}
+
+class Sidebar extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onItemSelected;
+
+  const Sidebar({
+    super.key,
+    required this.selectedIndex,
+    required this.onItemSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: const Color.fromARGB(166, 230, 129, 36),
+              ),
+      width: 250,
+      child: Column(
+        children: [
+          const SizedBox(height: 30),
+          const Text(
+            '🍔 Foods',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Divider(),
+
+          ListTile(
+            leading: const Icon(Icons.dashboard),
+            title: const Text('Productos'),
+            selected: selectedIndex == 0,
+            onTap: () => onItemSelected(0),
+          ),
+          ListTile(
+            leading: const Icon(Icons.outdoor_grill_outlined),
+            title: const Text('Pedidos'),
+            selected: selectedIndex == 1,
+            onTap: () => onItemSelected(1),
+          ),
+           ListTile(
+            leading: const Icon(Icons.point_of_sale),
+            title: const Text('Caja'),
+            selected: selectedIndex == 2,
+            onTap: () => onItemSelected(2),
+          ),
+           ListTile(
+            leading: const Icon(Icons.trending_up),
+            title: const Text('Ventas'),
+            selected: selectedIndex == 3,
+            onTap: () => onItemSelected(3),
+          ),
+           ListTile(
+            leading: const Icon(Icons.restaurant_menu_rounded),
+            title: const Text('Menu'),
+            selected: selectedIndex == 4,
+            onTap: () => onItemSelected(4),
+          ),
+
+          /*ListTile(
+            leading: const Icon(Icons.restaurant),
+            title: const Text('Mesas'),
+            selected: selectedIndex == 1,
+            onTap: () => onItemSelected(1),
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.receipt_long),
+            title: const Text('Pedidos'),
+            selected: selectedIndex == 2,
+            onTap: () => onItemSelected(2),
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.fastfood),
+            title: const Text('Productos'),
+            selected: selectedIndex == 3,
+            onTap: () => onItemSelected(3),
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Configuración'),
+            selected: selectedIndex == 4,
+            onTap: () => onItemSelected(4),
+          ), */
+        ],
+      ),
+    );
+  }
+}

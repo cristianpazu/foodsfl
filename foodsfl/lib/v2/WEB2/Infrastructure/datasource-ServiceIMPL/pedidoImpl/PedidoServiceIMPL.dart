@@ -1,0 +1,112 @@
+import 'dart:convert';
+/*
+import 'package:foodsfl/WEB/DTO/EstadoPedidoDTO.dart';
+import 'package:foodsfl/WEB/DTO/HistorialPedidoDTO.dart'
+    show Historialpedidodto; 
+import 'package:foodsfl/WEB/Domain/datasource-serviceInterface/pedidoInterface/pedidoDatasource.dart'
+    show Pedidodatasource;*/
+import 'package:foodsfl/v2/WEB2/DTO/EstadoPedidoDTO.dart' show Estadopedidodto;
+import 'package:foodsfl/v2/WEB2/DTO/HistorialPedidoDTO.dart' show Historialpedidodto;
+import 'package:foodsfl/v2/WEB2/DTO/PedidoResponseDTO.dart' show PedidoResponseDTO;
+import 'package:foodsfl/v2/WEB2/Domain/datasource-serviceInterface/pedidoInterface/pedidoDatasource.dart' show Pedidodatasource;
+import 'package:foodsfl/v2/WEB2/Utils/BaseUrl.dart' show Baseurl;
+import 'package:foodsfl/v2/WEB2/Utils/http.dart' show HttpService;
+
+class Pedidoserviceimpl extends Pedidodatasource {
+  @override
+  Future<List<PedidoResponseDTO>> consultarPedidosActuales() async {
+    try {
+      final respuesta =
+          await HttpService(Baseurl.consultarPedidosActuals)
+              .getHttp();
+
+      print('🔵 RESPUESTA RAW: $respuesta');
+      print('🔵 TIPO RESPUESTA: ${respuesta.runtimeType}');
+
+      if (respuesta == null) return [];
+
+      final data = jsonDecode(respuesta);
+      print('🟢 DATA: $data');
+      print('🟢 TIPO DATA: ${data.runtimeType}');
+      if (data is! List) {
+        print('❌ La respuesta no es una lista');
+        return [];
+      }
+      final List<PedidoResponseDTO> peidos = [];
+
+      for (var element in data ?? []) {
+        print('🟡 ELEMENT: $element');
+        print('🟡 TIPO ELEMENT: ${element.runtimeType}');
+
+        // peidos.add(Historialpedidodto.fromJson(element));
+
+        if (element is Map<String, dynamic>) {
+          peidos.add(
+            PedidoResponseDTO.fromJson(element),
+          );
+        } else {
+          print('❌ Elemento no es Map<String,dynamic>');
+        }
+      }
+      print('peidos $peidos');
+      return peidos;
+    } catch (e, stackTrace) {
+      print('ERROR CONSULTANDO PEDIDOS: $e');
+      print(stackTrace);
+      return [];
+    }
+  }
+
+  @override
+  Future<List<Estadopedidodto>> consultarEstadoPedido() async {
+    try {
+      print('🟢 ENTRÓ A consultarEstadoPedido');
+      final respuesta =
+          await HttpService(Baseurl.consultarEstadoPedido).getHttp();
+
+      print('La respuesta no es una lista $respuesta');
+
+      if (respuesta == null) return [];
+
+      final data = jsonDecode(respuesta);
+
+      if (data is! List) {
+        print('❌ La respuesta no es una lista');
+        return [];
+      }
+      final List<Estadopedidodto> peidos = [];
+
+      for (var element in data ?? []) {
+        // peidos.add(Historialpedidodto.fromJson(element));
+
+        if (element is Map<String, dynamic>) {
+          peidos.add(
+            Estadopedidodto.fromJson(element),
+          );
+        } else {
+          print('❌ Elemento no es Map<String,dynamic>');
+        }
+      }
+      print('peidos $peidos');
+      return peidos;
+    } catch (_) {
+      return [];
+    }
+  }
+
+  @override
+  Future<void> actualizarEstadoPago(int idPedido, int idEstadoPago) async{
+   try {
+      final respuesta = await HttpService(Baseurl.actualizarEstadoPago(idPedido, idEstadoPago)).postActualizarEstadoPagoHttp();
+ 
+print('respuesta>>>>>>>>>>>>><<<<<< $respuesta');
+
+      return respuesta;
+    } catch (_) {
+       throw Exception(
+      'Error registrando pedido',
+    );
+    }
+  
+  }
+}
