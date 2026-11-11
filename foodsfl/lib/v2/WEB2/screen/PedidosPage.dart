@@ -195,8 +195,13 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                         showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
+                                            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                                             title: Text(
-                                                'Pedido #${primerProducto.idPedido}'),
+                                                'Pedido #${primerProducto.idPedido}'   ,  style: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Color(0xFF1E293B),
+  ),),
                                             content: SizedBox(
                                               width: sizeScreen.width * 0.5,
                                               height: sizeScreen.height * 0.8,
@@ -224,35 +229,74 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                               sizeScreen.width *
                                                                   0.5,
                                                           height: 250,
-                                                          child: Column(
-                                                            children: [
-                                                              Text(
-                                                                  'Informacion del cliente'),
-                                                              Row(
-                                                                children: [
-                                                                  Icon(Icons
-                                                                      .person),
-                                                                  Text(
-                                                                      '${primerProducto.nombreCliente}'),
-                                                                ],
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Icon(Icons
-                                                                      .phone),
-                                                                  Text(
-                                                                      '${primerProducto.telefonoCliente}'),
-                                                                ],
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Icon(Icons
-                                                                      .location_on_outlined),
-                                                                  Text(
-                                                                      '${primerProducto.direccionEntrega}'),
-                                                                ],
-                                                              ),
-                                                            ],
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(40),
+                                                            child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text(
+                                                                    'Informacion del cliente',style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                      ),),
+                                                                     SizedBox(height: 10,),
+                                                                Row(
+                                                                  children: [
+                                                                    Icon(Icons.person,color:  Color(0xFF263746),
+      size: 24,),
+                                                                     SizedBox(width: 25,),
+                                                                    Text('${primerProducto.nombreCliente}',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                               SizedBox(height: 10,),
+                                                                Row(
+                                                                  children: [
+                                                                    Icon(Icons
+                                                                        .phone,size: 28),
+                                                                          SizedBox(width: 25,),
+                                                                    Text(
+                                                                        '${primerProducto.telefonoCliente}', style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                      ),),
+                                                                  ],
+                                                                ),
+                                                                  SizedBox(height: 10,),
+                                                                Row(
+                                                                  children: [
+                                                                    Icon(Icons
+                                                                        .location_on_outlined,size: 28),
+                                                                          SizedBox(width: 25,),
+                                                                    Text(
+                                                                        '${primerProducto.direccionEntrega}', style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                      ),),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -295,7 +339,8 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                                       children: [
                                                                         Text(
                                                                             'Fecha y hora'),
-                                                                        Text('${primerProducto.fecha} - ${primerProducto.hora}'),
+                                                                        Text(
+                                                                            '${primerProducto.fecha} - ${primerProducto.hora}'),
                                                                       ],
                                                                     ),
                                                                   ],
