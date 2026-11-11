@@ -6,6 +6,7 @@ import 'package:foodsfl/WEB/Infrastructure/datasource-ServiceIMPL/pedidoImpl/Ped
 import 'package:foodsfl/v2/WEB2/DTO/EstadoPedidoDTO.dart' show Estadopedidodto;
 import 'package:foodsfl/v2/WEB2/DTO/HistorialPedidoDTO.dart' show Historialpedidodto;
 import 'package:foodsfl/v2/WEB2/DTO/PedidoResponseDTO.dart' show PedidoResponseDTO;
+import 'package:foodsfl/v2/WEB2/DTO/PedidosResponseDTO.dart';
 import 'package:foodsfl/v2/WEB2/Domain/repositories/pedidoRepositories/pedidoRepositories.dart' show Pedidorepositories;
 import 'package:foodsfl/v2/WEB2/Infrastructure/datasource-ServiceIMPL/pedidoImpl/PedidoServiceIMPL.dart' show Pedidoserviceimpl;
 
@@ -17,7 +18,7 @@ class PedidoRepositoryController extends Pedidorepositories {
 
 
   @override
-  Future<List<PedidoResponseDTO>> consultarPedidosActuales() {
+  Future<List<PedidosResponseDTO>> consultarPedidosActuales() {
 
 final ufff = pedidoserviceimpl.consultarPedidosActuales();
 

@@ -117,5 +117,7 @@ static String formatoFecha(DateTime fecha) {
   static DateTime fechaActual() {
     return DateTime.now();
   }
-
+static String formatoHoraString(String hora) {
+  return hora.split('.').first;
+}
 }

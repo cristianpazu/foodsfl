@@ -8,13 +8,14 @@ import 'package:foodsfl/WEB/Domain/datasource-serviceInterface/pedidoInterface/p
 import 'package:foodsfl/v2/WEB2/DTO/EstadoPedidoDTO.dart' show Estadopedidodto;
 import 'package:foodsfl/v2/WEB2/DTO/HistorialPedidoDTO.dart' show Historialpedidodto;
 import 'package:foodsfl/v2/WEB2/DTO/PedidoResponseDTO.dart' show PedidoResponseDTO;
+import 'package:foodsfl/v2/WEB2/DTO/PedidosResponseDTO.dart';
 import 'package:foodsfl/v2/WEB2/Domain/datasource-serviceInterface/pedidoInterface/pedidoDatasource.dart' show Pedidodatasource;
 import 'package:foodsfl/v2/WEB2/Utils/BaseUrl.dart' show Baseurl;
 import 'package:foodsfl/v2/WEB2/Utils/http.dart' show HttpService;
 
 class Pedidoserviceimpl extends Pedidodatasource {
   @override
-  Future<List<PedidoResponseDTO>> consultarPedidosActuales() async {
+  Future<List<PedidosResponseDTO>> consultarPedidosActuales() async {
     try {
       final respuesta =
           await HttpService(Baseurl.consultarPedidosActuals)
@@ -32,7 +33,7 @@ class Pedidoserviceimpl extends Pedidodatasource {
         print('❌ La respuesta no es una lista');
         return [];
       }
-      final List<PedidoResponseDTO> peidos = [];
+      final List<PedidosResponseDTO> peidos = [];
 
       for (var element in data ?? []) {
         print('🟡 ELEMENT: $element');
@@ -42,7 +43,7 @@ class Pedidoserviceimpl extends Pedidodatasource {
 
         if (element is Map<String, dynamic>) {
           peidos.add(
-            PedidoResponseDTO.fromJson(element),
+            PedidosResponseDTO.fromJson(element),
           );
         } else {
           print('❌ Elemento no es Map<String,dynamic>');

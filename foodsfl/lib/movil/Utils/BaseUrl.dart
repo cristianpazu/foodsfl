@@ -1,6 +1,6 @@
 class Baseurl {
 
- static final String baseUrl = 'http://192.168.1.132:8080';
+ static final String baseUrl = 'http://192.168.20.23:8080';
   static final String consultarMesas = '/Mesas/listar/mesas';
  static final String consultarSubMenu = '/submenu/traer/submenus';
  static String consultarRestaurante(int id) =>

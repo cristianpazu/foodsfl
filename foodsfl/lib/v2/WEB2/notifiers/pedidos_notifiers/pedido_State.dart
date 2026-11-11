@@ -6,6 +6,7 @@ import 'package:foodsfl/v2/WEB2/DTO/EstadoPedidoDTO.dart';
 import 'package:foodsfl/v2/WEB2/DTO/HistorialPedidoDTO.dart' show Historialpedidodto;
 import 'package:foodsfl/v2/WEB2/DTO/PedidoCocinaDTO.dart' show PedidoCocinaDto;
 import 'package:foodsfl/v2/WEB2/DTO/PedidoResponseDTO.dart' show PedidoResponseDTO;
+import 'package:foodsfl/v2/WEB2/DTO/PedidosResponseDTO.dart';
 
 class Pedidostate {
   final int? idpedido;
@@ -14,6 +15,7 @@ class Pedidostate {
   final bool? isLodingEstadoPedido;
   final List<Historialpedidodto>? historialpedidodto;
   final List<PedidoResponseDTO>? pedidoResponseDTO;
+    final List<PedidosResponseDTO>? pedidosResponseDTO;
 
   
   final List<PedidoCocinaDto>? pedidos;
@@ -21,7 +23,7 @@ class Pedidostate {
    final String? estadoPedidoS;
 
 
-  Pedidostate({this.idpedido, this.isLoding, this.isLodingCaja, this.isLodingEstadoPedido, this.historialpedidodto, this.pedidoResponseDTO ,this.pedidos, this.estadoPedido, this.estadoPedidoS});
+  Pedidostate({this.idpedido, this.isLoding, this.isLodingCaja, this.isLodingEstadoPedido, this.historialpedidodto, this.pedidoResponseDTO , this.pedidosResponseDTO,this.pedidos, this.estadoPedido, this.estadoPedidoS});
 
   Pedidostate copyWith(
           {int? idpedido,
@@ -30,6 +32,7 @@ class Pedidostate {
           bool? isLodingEstadoPedido,
           List<Historialpedidodto>? historialpedidodto,
            List<PedidoResponseDTO>? pedidoResponseDTO,
+             List<PedidosResponseDTO>? pedidosResponseDTO,
           List<Estadopedidodto>? estadoPedido,
     List<PedidoCocinaDto>? pedidos,
     String? estadoPedidoS
@@ -41,6 +44,7 @@ class Pedidostate {
           isLodingEstadoPedido: isLodingEstadoPedido ?? this.isLodingEstadoPedido,
           historialpedidodto: historialpedidodto ?? this.historialpedidodto,
           pedidoResponseDTO: pedidoResponseDTO ?? this.pedidoResponseDTO,
+          pedidosResponseDTO: pedidosResponseDTO ?? this.pedidosResponseDTO,
           pedidos: pedidos ?? this.pedidos,
           estadoPedido: estadoPedido ?? this.estadoPedido,
           estadoPedidoS: estadoPedidoS ?? this.estadoPedidoS

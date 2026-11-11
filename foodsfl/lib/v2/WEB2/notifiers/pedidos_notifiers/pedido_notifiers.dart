@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart'
 import 'package:foodsfl/v2/WEB2/DTO/EstadoPedidoDTO.dart';
 import 'package:foodsfl/v2/WEB2/DTO/HistorialPedidoDTO.dart' show Historialpedidodto;
 import 'package:foodsfl/v2/WEB2/DTO/PedidoResponseDTO.dart' show PedidoResponseDTO;
+import 'package:foodsfl/v2/WEB2/DTO/PedidosResponseDTO.dart';
 import 'package:foodsfl/v2/WEB2/Domain/repositories/pedidoRepositories/pedidoRepositories.dart';
 import 'package:foodsfl/v2/WEB2/Services/web_Socekt.dart' show WebSocketService;
 import 'package:foodsfl/v2/WEB2/notifiers/pedidos_notifiers/pedido_State.dart' show Pedidostate;
@@ -44,14 +45,14 @@ class PedidoNotifiers extends StateNotifier<Pedidostate> {
     state = state.copyWith(isLoding: true);
   try {
 
-    final List<PedidoResponseDTO> pedido =
+    final List<PedidosResponseDTO> pedido =
         await pedidorepositories.consultarPedidosActuales();
 
     print('111111111 $pedido');
 
     state = state.copyWith(
         isLoding: false,
-        pedidoResponseDTO: [...?state.pedidoResponseDTO, ...pedido]);
+        pedidosResponseDTO: [...?state.pedidosResponseDTO, ...pedido]);
 
   } catch (e, stackTrace) {
     print('❌ ERROR ConsultarPedidosActuales: $e');

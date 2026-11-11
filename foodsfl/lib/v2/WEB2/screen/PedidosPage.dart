@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart' show MasonryGridView;
-import 'package:foodsfl/v2/WEB2/DTO/PedidoResponseDTO.dart' show PedidoResponseDTO;
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart'
+    show MasonryGridView;
+import 'package:foodsfl/v2/WEB2/DTO/PedidoResponseDTO.dart'
+    show PedidoResponseDTO;
+import 'package:foodsfl/v2/WEB2/DTO/PedidosResponseDTO.dart';
 import 'package:foodsfl/v2/WEB2/Widgets/cardPedido.dart' show CardPedidos;
-import 'package:foodsfl/v2/WEB2/notifiers/pedidos_notifiers/pedido_notifiers.dart' show pedidotateNotifierProvider;
+import 'package:foodsfl/v2/WEB2/notifiers/pedidos_notifiers/pedido_notifiers.dart'
+    show pedidotateNotifierProvider;
+import 'package:foodsfl/v2/WEB2/widget/sistema.dart';
 
 class Pedidospage extends ConsumerStatefulWidget {
   const Pedidospage({super.key});
@@ -18,20 +23,26 @@ class _PedidospagepageState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
     final pedido = ref.watch(pedidotateNotifierProvider);
-
+    final sizeScreen = MediaQuery.of(context).size;
     print('>>>>>>>>>>>>>>>>>>>>< ${pedido.historialpedidodto?.length}');
 
+    final pedidosUnicos = pedido.pedidosResponseDTO ?? [];
 
-  final historial = pedido.pedidoResponseDTO ?? [];
+    /* final Map<int, List<PedidosResponseDTO>> pedidosAgrupados = {};
 
-  final Map<int, List<PedidoResponseDTO>> pedidosAgrupados = {};
+    for (final item in historial) {
+      pedidosAgrupados.putIfAbsent(item.idPedido!, () => []);
+print('>>>>>>>>>>>>>>>>>>>>< ${item}');
+      pedidosAgrupados[item.idPedido]!.add(item);
+    }
 
-for (final item in historial) {
-  pedidosAgrupados.putIfAbsent(item.idPedido!, () => []);
-  pedidosAgrupados[item.idPedido]!.add(item);
-}
-
-final pedidosUnicos = pedidosAgrupados.values.toList();
+    final pedidosUnicos = pedidosAgrupados.values.toList(); */
+    final ScrollController _horizontalController = ScrollController();
+    @override
+    void dispose() {
+      _horizontalController.dispose();
+      super.dispose();
+    }
 
 /*
     final productosFiltrados = productos.producto?.where((producto) {
@@ -96,35 +107,440 @@ final pedidosUnicos = pedidosAgrupados.values.toList();
   ),
 ) */
 
-            
-            
-            
-            MasonryGridView.count(
-               /* gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                Expanded(
+              child: Builder(
+                builder: (context) {
+                  // Filtrar los pedidos por número o mesa.
+                  final pedidosFiltrados = pedidosUnicos.where((pedido) {
+                    final busqueda = textoBusqueda.toLowerCase();
+
+                    return (pedido.idPedido?.toString() ?? '')
+                            .toLowerCase()
+                            .contains(busqueda) ||
+                        (pedido.nombreCliente ?? '')
+                            .toLowerCase()
+                            .contains(busqueda) ||
+                        (pedido.direccionEntrega ?? '')
+                            .toLowerCase()
+                            .contains(busqueda);
+                  }).toList();
+
+                  return LayoutBuilder(builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SingleChildScrollView(
+                        controller: _horizontalController,
+                        scrollDirection: Axis.horizontal,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: constraints.maxWidth,
+                          ),
+                          child: DataTable(
+                            headingRowColor: WidgetStateProperty.all(
+                              const Color(0xFFF1F3F6),
+                            ),
+                            columns: const [
+                              DataColumn(label: Text('# Pedido')),
+                              DataColumn(label: Text('Cliente')),
+                              DataColumn(label: Text('total')),
+                              DataColumn(label: Text('Metodo de pago')),
+                              DataColumn(label: Text('Estado')),
+                              DataColumn(label: Text('Fecha y hora')),
+                              DataColumn(label: Text('Acciones')),
+                            ],
+                            rows: pedidosFiltrados.map((primerProducto) {
+                              return DataRow(
+                                cells: [
+                                  // Número del pedido
+                                  DataCell(
+                                    Text('#${primerProducto.idPedido ?? ''}'),
+                                  ),
+
+                                  // Cliente
+                                  DataCell(
+                                    Text(primerProducto.nombreCliente ?? ''),
+                                  ),
+
+                                  // total del pedido
+                                  DataCell(
+                                    Text(
+                                      '${primerProducto.totalCuenta}',
+                                    ),
+                                  ),
+                                  // Productos del pedido
+                                  DataCell(Text(
+                                    '${primerProducto.metodoPago}',
+                                  )),
+                                  // Productos del pedido
+                                  DataCell(Text(
+                                    '${primerProducto.idPedido}',
+                                  )),
+                                  // Fecha y hora
+                                  DataCell(
+                                    Text(
+                                      '${Sistema.formatoFecha(primerProducto.fecha!)} '
+                                      '${Sistema.formatoHoraString(primerProducto.hora!)}',
+                                    ),
+                                  ),
+                                  // Acciones
+                                  DataCell(
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.visibility,
+                                        color:
+                                            Color.fromARGB(255, 149, 180, 211),
+                                      ),
+                                      onPressed: () {
+                                        // Aquí puedes abrir el detalle del pedido.
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: Text(
+                                                'Pedido #${primerProducto.idPedido}'),
+                                            content: SizedBox(
+                                              width: sizeScreen.width * 0.5,
+                                              height: sizeScreen.height * 0.8,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      0.822)),
+                                                          width:
+                                                              sizeScreen.width *
+                                                                  0.5,
+                                                          height: 250,
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                  'Informacion del cliente'),
+                                                              Row(
+                                                                children: [
+                                                                  Icon(Icons
+                                                                      .person),
+                                                                  Text(
+                                                                      '${primerProducto.nombreCliente}'),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Icon(Icons
+                                                                      .phone),
+                                                                  Text(
+                                                                      '${primerProducto.telefonoCliente}'),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Icon(Icons
+                                                                      .location_on_outlined),
+                                                                  Text(
+                                                                      '${primerProducto.direccionEntrega}'),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 4,
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      0.822)),
+                                                          width:
+                                                              sizeScreen.width *
+                                                                  0.5,
+                                                          height: 250,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Text(
+                                                                    'Informacion Pedido'),
+                                                                Row(
+                                                                  children: [
+                                                                    Icon(Icons
+                                                                        .date_range_outlined),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    ),
+                                                                    Column(
+                                                                      children: [
+                                                                        Text(
+                                                                            'Fecha y hora'),
+                                                                        Text('${primerProducto.fecha} - ${primerProducto.hora}'),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Icon(Icons
+                                                                        .phone),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    ),
+                                                                    Column(
+                                                                      children: [
+                                                                        Text(
+                                                                            'Metodo de pago'),
+                                                                        Text(
+                                                                            '${primerProducto.metodoPago}'),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Icon(Icons
+                                                                        .location_on_outlined),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    ),
+                                                                    Column(
+                                                                      children: [
+                                                                        Text(
+                                                                            'Total'),
+                                                                        Text(
+                                                                            '${primerProducto.totalCuenta}'),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  const Text(
+                                                    'Productos del pedido',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: LayoutBuilder(
+                                                      builder: (context,
+                                                          constraints) {
+                                                        return SingleChildScrollView(
+                                                          scrollDirection:
+                                                              Axis.vertical,
+                                                          child:
+                                                              SingleChildScrollView(
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            child:
+                                                                ConstrainedBox(
+                                                              constraints:
+                                                                  BoxConstraints(
+                                                                minWidth:
+                                                                    constraints
+                                                                        .maxWidth,
+                                                              ),
+                                                              child: DataTable(
+                                                                columnSpacing:
+                                                                    30,
+                                                                horizontalMargin:
+                                                                    16,
+                                                                columns: const [
+                                                                  DataColumn(
+                                                                      label: Text(
+                                                                          'Producto')),
+                                                                  DataColumn(
+                                                                      label: Text(
+                                                                          'Cantidad')),
+                                                                  DataColumn(
+                                                                      label: Text(
+                                                                          'Precio')),
+                                                                  DataColumn(
+                                                                      label: Text(
+                                                                          'Subtotal')),
+                                                                ],
+                                                                rows: (primerProducto
+                                                                            .items ??
+                                                                        [])
+                                                                    .map(
+                                                                        (producto) {
+                                                                  final cantidad =
+                                                                      producto.cantidad ??
+                                                                          0;
+                                                                  final precio =
+                                                                      producto.precioUnitario ??
+                                                                          0;
+
+                                                                  return DataRow(
+                                                                    cells: [
+                                                                      DataCell(Text(
+                                                                          producto.nombre ??
+                                                                              '')),
+                                                                      DataCell(Text(
+                                                                          '$cantidad')),
+                                                                      DataCell(Text(
+                                                                          '$precio')),
+                                                                      DataCell(Text(
+                                                                          '${cantidad * precio}')),
+                                                                    ],
+                                                                  );
+                                                                }).toList(),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  )
+                                                  /*  Expanded(
+                                                    child: Container(
+                                                        width: double.infinity,
+                                                        decoration: BoxDecoration(
+                                                    
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20)),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Expanded(
+                                                              child:
+                                                                  SingleChildScrollView(
+                                                                child:
+                                                                    SingleChildScrollView(
+                                                                  scrollDirection:
+                                                                      Axis.horizontal,
+                                                                  child:
+                                                                      DataTable(
+                                                                    columns: const [
+                                                                      DataColumn(
+                                                                          label:
+                                                                              Text('Producto')),
+                                                                      DataColumn(
+                                                                          label:
+                                                                              Text('Cantidad')),
+                                                                      DataColumn(
+                                                                          label:
+                                                                              Text('Precio')),
+                                                                      DataColumn(
+                                                                          label:
+                                                                              Text('Subtotal')),
+                                                                    ],
+                                                                  rows: (primerProducto.items ?? []).map((producto) {
+                                                                    int subTotal =  (producto.cantidad!) * (producto.precio!);
+                                                                      return DataRow(
+                                                                        cells: [
+                                                                          DataCell(Text(producto.nombre ??
+                                                                              '')),
+                                                                          DataCell(
+                                                                              Text('${producto.cantidad ?? 0}')),
+                                                                          DataCell(
+                                                                              Text('${producto.precioUnitario ?? 0}')),
+                                                                          DataCell(
+                                                                              Text('${subTotal ?? 0}')),
+                                                                        ],
+                                                                      );
+                                                                    }).toList(),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ) */
+                                                ],
+
+                                                /*productosPedido
+                                                    .map((producto) {
+                                                  return Text(
+                                                      '${producto.descripcion}');
+                                                }).toList(), */
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    );
+                  });
+                },
+              ),
+            ),
+
+            /*  MasonryGridView.count(
+                    /* gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 6, // número de columnas
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ), */
 
- crossAxisCount: 6,
-  mainAxisSpacing: 20,
-  crossAxisSpacing: 20,
-  padding: const EdgeInsets.all(20),
-                itemCount:pedidosUnicos.length, //pedido.historialpedidodto?.length ?? 0,
-                itemBuilder: (context, index) {
-                  /*
+                    crossAxisCount: 6,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 20,
+                    padding: const EdgeInsets.all(20),
+                    itemCount: pedidosUnicos
+                        .length, //pedido.historialpedidodto?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      /*
                     final producto = productos.producto![index];
                     print(producto.idSubmenu); */
 
-                  final pedidos = pedido.pedidoResponseDTO![index];
+                      final pedidos = pedido.pedidoResponseDTO![index];
 
-                  print(pedido.pedidoResponseDTO?.length);
+                      print(pedido.pedidoResponseDTO?.length);
 
-                    final productosPedido = pedidosUnicos[index];
+                      final productosPedido = pedidosUnicos[index];
 
-      final primerProducto = productosPedido.first;
+                      final primerProducto = productosPedido.first;
 
-                  return /*Card(
+                      return /*Card(
   child: Column(
     children: [
       Text('Pedido: ${pedidos.idPedido}'),
@@ -133,27 +549,25 @@ final pedidosUnicos = pedidosAgrupados.values.toList();
       Text('Cantidad: ${pedidos.cantidad}'),
     ],
   ),
-); */ Column(
-                    children: [ 
-                      CardPedidos(
-                        idProducto: primerProducto.idPedido!,
-                        nombreMesa: primerProducto.descripcion,
-                        productos: productosPedido
-                        
-                        
-                        /*
+); */
+                          Column(
+                        children: [
+                          CardPedidos(
+                              idProducto: primerProducto.idPedido!,
+                              nombreMesa: primerProducto.descripcion,
+                              productos: productosPedido
+
+                              /*
                         nombreProducto: pedidos.nombreProducto,
                         cantidad: pedidos.cantidad, */
-                      ),
-                    ],
-                  ); 
-                }), 
+                              ),
+                        ],
+                      );
+                    }
+                    ),*/
           ),
         ],
       ),
     );
   }
 }
-
-
-
