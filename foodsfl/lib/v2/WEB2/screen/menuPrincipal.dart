@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:foodsfl/WEB/screen/CajaPage.dart' show Cajapage;
 
-import 'package:foodsfl/WEB/screen/ventaPage.dart' show Ventapage;
 import 'package:foodsfl/WEB/widget/drawers.dart';
 import 'package:foodsfl/Widgets/cardProductos.dart';
 import 'package:foodsfl/main.dart' show MenuGestionScreen;
 import 'package:foodsfl/movil/screen/mesas_screen.dart';
 import 'package:foodsfl/v2/WEB2/screen/PedidosPage.dart' show Pedidospage;
 import 'package:foodsfl/v2/WEB2/screen/productoPage.dart' show Productopage;
+import 'package:foodsfl/v2/WEB2/screen/ventaPage.dart';
 
 class MenuprincipalWeb extends StatefulWidget {
   const MenuprincipalWeb({super.key});
@@ -22,8 +22,8 @@ class _MenuprincipalState extends State<MenuprincipalWeb> {
   final pages = [
     Productopage(),
     Pedidospage(),
-    /*Cajapage(),
-    Ventapage(),*/
+    /*Cajapage(),*/
+    Ventapage(),
     MenuGestionScreen() 
   ];
 
@@ -110,7 +110,7 @@ class Sidebar extends StatelessWidget {
           ),
            ListTile(
             leading: const Icon(Icons.point_of_sale),
-            title: const Text('Caja'),
+            title: const Text('Venta'),
             selected: selectedIndex == 2,
             onTap: () => onItemSelected(2),
           ),

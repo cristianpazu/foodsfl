@@ -18,7 +18,7 @@ class Ventaserviceimpl extends Ventadatasource {
   @override
   Future<Ventadto> consultarVentaHoy()async {
  try {
-      final  respuesta = await HttpService(Baseurl.consultarSubmenusPedidos).getHttp();
+      final  respuesta = await HttpService(Baseurl.consultarVentaHoy).getHttp();
  
 print('respuesta>>>>>>>>>>>>><<<<<< $respuesta');
 

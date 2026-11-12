@@ -149,6 +149,18 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                               DataColumn(label: Text('Acciones')),
                             ],
                             rows: pedidosFiltrados.map((primerProducto) {
+
+final totalPedido = (primerProducto.items ?? []).fold<double>(
+  0,
+  (total, producto) {
+    final cantidad = producto.cantidad ?? 0;
+    final precio = producto.precioUnitario ?? 0;
+
+    return total + (cantidad * precio);
+  },
+);
+
+
                               return DataRow(
                                 cells: [
                                   // Número del pedido
@@ -195,13 +207,16 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                         showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
-                                            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                                            backgroundColor: Color.fromRGBO(
+                                                255, 255, 255, 1),
                                             title: Text(
-                                                'Pedido #${primerProducto.idPedido}'   ,  style: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    color: Color(0xFF1E293B),
-  ),),
+                                              'Pedido #${primerProducto.idPedido}',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF1E293B),
+                                              ),
+                                            ),
                                             content: SizedBox(
                                               width: sizeScreen.width * 0.5,
                                               height: sizeScreen.height * 0.8,
@@ -215,97 +230,13 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                       Expanded(
                                                         child: Container(
                                                           decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20),
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                      255,
-                                                                      255,
-                                                                      255,
-                                                                      0.822)),
-                                                          width:
-                                                              sizeScreen.width *
-                                                                  0.5,
-                                                          height: 250,
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(40),
-                                                            child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                Text(
-                                                                    'Informacion del cliente',style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                      ),),
-                                                                     SizedBox(height: 10,),
-                                                                Row(
-                                                                  children: [
-                                                                    Icon(Icons.person,color:  Color(0xFF263746),
-      size: 24,),
-                                                                     SizedBox(width: 25,),
-                                                                    Text('${primerProducto.nombreCliente}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                               SizedBox(height: 10,),
-                                                                Row(
-                                                                  children: [
-                                                                    Icon(Icons
-                                                                        .phone,size: 28),
-                                                                          SizedBox(width: 25,),
-                                                                    Text(
-                                                                        '${primerProducto.telefonoCliente}', style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                      ),),
-                                                                  ],
-                                                                ),
-                                                                  SizedBox(height: 10,),
-                                                                Row(
-                                                                  children: [
-                                                                    Icon(Icons
-                                                                        .location_on_outlined,size: 28),
-                                                                          SizedBox(width: 25,),
-                                                                    Text(
-                                                                        '${primerProducto.direccionEntrega}', style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                      ),),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      Expanded(
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
+                                                             border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                        .grey, // Color del borde
+                                                                    width:
+                                                                        1.5, // Grosor del borde
+                                                                  ),
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -325,10 +256,155 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                                 const EdgeInsets
                                                                     .all(8.0),
                                                             child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
                                                               children: [
                                                                 Text(
-                                                                    'Informacion Pedido'),
+                                                                  'Informacion del cliente',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
                                                                 Row(
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons
+                                                                          .person,
+                                                                      color: Color(
+                                                                          0xFF263746),
+                                                                      size: 24,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 25,
+                                                                    ),
+                                                                    Text(
+                                                                      '${primerProducto.nombreCliente}',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Icon(
+                                                                        Icons
+                                                                            .phone,
+                                                                        size:
+                                                                            28),
+                                                                    SizedBox(
+                                                                      width: 25,
+                                                                    ),
+                                                                    Text(
+                                                                      '${primerProducto.telefonoCliente}',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Icon(
+                                                                        Icons
+                                                                            .location_on_outlined,
+                                                                        size:
+                                                                            28),
+                                                                    SizedBox(
+                                                                      width: 25,
+                                                                    ),
+                                                                    Text(
+                                                                      '${primerProducto.direccionEntrega}',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 4,
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                        .grey, // Color del borde
+                                                                    width:
+                                                                        1.5, // Grosor del borde
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          0.822)),
+                                                          width:
+                                                              sizeScreen.width *
+                                                                  0.5,
+                                                          height: 250,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Informacion Pedido',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
                                                                   children: [
                                                                     Icon(Icons
                                                                         .date_range_outlined),
@@ -336,11 +412,22 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                                       width: 10,
                                                                     ),
                                                                     Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
                                                                         Text(
                                                                             'Fecha y hora'),
                                                                         Text(
-                                                                            '${primerProducto.fecha} - ${primerProducto.hora}'),
+                                                                          '${Sistema.formatoFecha(primerProducto.fecha!)} - ${Sistema.formatoHoraString(primerProducto.hora!)}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                20,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                          ),
+                                                                        ),
                                                                       ],
                                                                     ),
                                                                   ],
@@ -349,6 +436,9 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                                   height: 10,
                                                                 ),
                                                                 Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
                                                                   children: [
                                                                     Icon(Icons
                                                                         .phone),
@@ -356,11 +446,22 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                                       width: 10,
                                                                     ),
                                                                     Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
                                                                         Text(
                                                                             'Metodo de pago'),
                                                                         Text(
-                                                                            '${primerProducto.metodoPago}'),
+                                                                          '${primerProducto.metodoPago}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                20,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                          ),
+                                                                        ),
                                                                       ],
                                                                     ),
                                                                   ],
@@ -369,6 +470,9 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                                   height: 10,
                                                                 ),
                                                                 Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
                                                                   children: [
                                                                     Icon(Icons
                                                                         .location_on_outlined),
@@ -376,11 +480,22 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                                       width: 10,
                                                                     ),
                                                                     Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
                                                                         Text(
                                                                             'Total'),
                                                                         Text(
-                                                                            '${primerProducto.totalCuenta}'),
+                                                                          '${primerProducto.totalCuenta}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                20,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                          ),
+                                                                        ),
                                                                       ],
                                                                     ),
                                                                   ],
@@ -405,6 +520,7 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                   ),
                                                   Expanded(
                                                     child: LayoutBuilder(
+
                                                       builder: (context,
                                                           constraints) {
                                                         return SingleChildScrollView(
@@ -423,6 +539,9 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                                         .maxWidth,
                                                               ),
                                                               child: DataTable(
+                                                                  headingRowColor: WidgetStateProperty.all(
+                              const Color(0xFFF1F3F6),
+                            ),
                                                                 columnSpacing:
                                                                     30,
                                                                 horizontalMargin:
@@ -532,7 +651,13 @@ print('>>>>>>>>>>>>>>>>>>>>< ${item}');
                                                             ),
                                                           ],
                                                         )),
-                                                  ) */
+                                                  ) */,
+                                                 Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text('Total del pedido ${totalPedido}')
+                                                  ],
+                                                 )
                                                 ],
 
                                                 /*productosPedido

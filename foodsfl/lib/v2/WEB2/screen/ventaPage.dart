@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' show AlertDialog, BorderRadius, BuildContext, Card, Colors, Column, Container, EdgeInsets, ElevatedButton, Expanded, Icon, Icons, InputDecoration, Navigator, OutlineInputBorder, Scaffold, SizedBox, Text, TextButton, TextField, Widget, showDialog;
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ConsumerStatefulWidget, ConsumerState;
-import 'package:foodsfl/WEB/notifiers/venta_notifiers/venta_notifiers.dart';
+import 'package:foodsfl/v2/WEB2/notifiers/venta_notifiers/venta_notifiers.dart';
+
 
 class Ventapage extends ConsumerStatefulWidget {
   const Ventapage({super.key});

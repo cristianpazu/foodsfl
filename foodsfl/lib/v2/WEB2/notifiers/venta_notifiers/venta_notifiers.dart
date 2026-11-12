@@ -1,11 +1,14 @@
-
-import 'package:flutter_riverpod/flutter_riverpod.dart' show StateNotifierProvider, StateNotifier;
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show StateNotifierProvider, StateNotifier;
 import 'package:foodsfl/v2/WEB2/DTO/VentaDTO.dart';
-import 'package:foodsfl/v2/WEB2/Domain/repositories/ventaRepositories/ventaRepositories.dart' show Ventarepositories;
+import 'package:foodsfl/v2/WEB2/Domain/repositories/ventaRepositories/ventaRepositories.dart'
+    show Ventarepositories;
 
-import 'package:foodsfl/v2/WEB2/notifiers/venta_notifiers/venta_state.dart' show VentaState;
-import 'package:foodsfl/v2/WEB2/providers/venta_provider.dart' show ventaProvider;
- /*
+import 'package:foodsfl/v2/WEB2/notifiers/venta_notifiers/venta_state.dart'
+    show VentaState;
+import 'package:foodsfl/v2/WEB2/providers/venta_provider.dart'
+    show ventaProvider;
+/*
 import 'package:foodsfl/WEB/DTO/VentaDTO.dart';
 import 'package:foodsfl/WEB/Domain/repositories/ventaRepositories/ventaRepositories.dart' show Ventarepositories;
 import 'package:foodsfl/WEB/notifiers/pedidos_notifiers/pedido_State.dart' show Pedidostate;
@@ -22,42 +25,49 @@ final ventatateNotifierProvider =
 class VentaNotifiers extends StateNotifier<VentaState> {
   final Ventarepositories ventarepositories;
 
-
   VentaNotifiers({required this.ventarepositories}) : super(VentaState()) {
     consultarVentaHoy();
   }
 
- 
-   Future<void> consultarVentaHoy() async {
-if (!mounted || state.isLoding == true) {
-  print('🔴 NO HAGO PETICIÓN PORQUE ESTÁ CARGANDO');
-  return;
-}
-
-    state = state.copyWith(isLoding: true);
-    try{
-      final Ventadto estadoVenta =
-        await ventarepositories.consultarVentaHoy();
-
-    print('>>>>>>>>>>>>>>>>< $estadoVenta');
-
-       if (!mounted) return;
-
-    state = state.copyWith(
-        isLoding: false,
-        estadoVenta: estadoVenta);
-
-    }catch(_){
-
-        if (!mounted) return;
-    state = state.copyWith(isLoding: false);
+  Future<void> consultarVentaHoy() async {
+    if (!mounted || state.isLoding == true) {
+      print('🔴 NO HAGO PETICIÓN PORQUE ESTÁ CARGANDO');
+      return;
     }
 
-  
+    state = state.copyWith(isLoding: true);
+    try {
+      final Ventadto estadoVenta = await ventarepositories.consultarVentaHoy();
+
+      print('>>>>>>>>>>>>>>>>< $estadoVenta');
+
+      if (!mounted) return;
+
+      state = state.copyWith(isLoding: false, estadoVenta: estadoVenta);
+    } catch (_) {
+      if (!mounted) return;
+      state = state.copyWith(isLoding: false);
+    }
+  }
+
+   Future<void> consultarInformacionRestaurante() async {
+    if (!mounted || state.isLoding == true) {
+      print('🔴 NO HAGO PETICIÓN PORQUE ESTÁ CARGANDO');
+      return;
+    }
+
+    state = state.copyWith(isLoding: true);
+    try {
+      final Ventadto estadoVenta = await ventarepositories.consultarVentaHoy();
+
+      print('>>>>>>>>>>>>>>>>< $estadoVenta');
+
+      if (!mounted) return;
+
+      state = state.copyWith(isLoding: false, estadoVenta: estadoVenta);
+    } catch (_) {
+      if (!mounted) return;
+      state = state.copyWith(isLoding: false);
+    }
+  }
 }
-
-
-
-}
-
- 

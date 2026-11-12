@@ -5,6 +5,7 @@ class ProductoResponseDTO {
   final int precio;
   final bool activo;
   final int idSubmenu;
+  final int menu;
 
   ProductoResponseDTO({
     required this.id,
@@ -13,6 +14,7 @@ class ProductoResponseDTO {
     required this.precio,
     required this.activo,
     required this.idSubmenu,
+     required this.menu,
   });
 
   factory ProductoResponseDTO.fromJson(Map<String, dynamic> json) {
@@ -22,7 +24,8 @@ class ProductoResponseDTO {
       descripcion: json['descripcion'],
       precio: json['precio'],
       activo: json['activo'],
-      idSubmenu: json['idSubmenu']
+      idSubmenu: json['idSubmenu'],
+      menu: json['menu'],
     );
   }
 }
